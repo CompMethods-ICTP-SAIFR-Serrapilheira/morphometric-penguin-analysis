@@ -79,3 +79,4 @@ vis_miss(penguins)
 
 if (!dir.exists("data/processed")) dir.create("data/processed")
 write.csv(penguins, "data/processed/02_penguins.csv", row.names = FALSE)
+
