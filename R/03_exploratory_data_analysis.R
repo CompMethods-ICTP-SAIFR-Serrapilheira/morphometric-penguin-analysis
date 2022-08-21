@@ -109,8 +109,6 @@ p3 <- ggplot(penguins[penguins$species == "Chinstrap",], aes(x=body_mass_g, fill
   ggtitle("Chinstrap species")
 grid.arrange(p1, p2, p3, nrow=3)
 
-names(penguins)
-
 # In all three species the males are bigger
 # regardin all the four morphometric variables
 

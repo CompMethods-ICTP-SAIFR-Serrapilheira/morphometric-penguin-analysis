@@ -25,7 +25,8 @@ knn <- train(species ~ .,
              metric = "Accuracy")
 
 knn_prediction <- predict(knn, newdata = test_data)
-#confusionMatrix(knn_prediction, as.factor(test_data$species))
+
+# Sucess rate of KNN
 mean((knn_prediction == test_data$species))
 
 # Decision Tree Model ----------------------------------------------------------
@@ -39,7 +40,7 @@ plot(decision_tree$finalModel, uniform=TRUE,
 text(decision_tree$finalModel, use.n = TRUE, all = TRUE, cex=0.9)
 
 decision_tree_prediction <- predict(decision_tree, newdata=test_data)
-#table(decision_tree_prediction, test_data$species)
+# Sucess rate of Decision Tree
 mean((decision_tree_prediction == test_data$species))
 
 # Random Forest ----------------------------------------------------------------
@@ -49,8 +50,8 @@ random_forest <- train(species ~ .,
                        method = "rf")
 
 random_forest_prediction <- predict(random_forest, newdata = test_data)
-#confusionMatrix(random_forest_prediction, as.factor(test_data$species))
 
+# Sucess rate of Random Forest
 mean((random_forest_prediction == test_data$species))
 
 # Suport Vector Machine --------------------------------------------------------
@@ -60,23 +61,6 @@ svm <- train(species ~.,
              method = "svmRadial")
 
 svm_prediction <- predict(svm, newdata = test_data)
+
+# Sucess rate of SVM
 mean((svm_prediction == test_data$species))
-
-# SVM plus PCA -----------------------------------------------------------------
-
-library(ggfortify)
-pca <- prcomp(penguins_metric[,2:5])
-autoplot(pca, data=penguins, colour="species")
-
-pca_two_dim <- data.frame(penguins_metric$species, pca$x[,1], pca$x[,2])
-library(e1071)
-svm_pca <- svm(as.factor(penguins_metric$species) ~ .,
-               data = pca_two_dim,
-               kernel = "radial")
-
-plot(svm_pca, data=pca_two_dim)
-head(pca_two_dim[,2:3])
-
-penguins_metric$species
-
-head(pca_two_dim)
