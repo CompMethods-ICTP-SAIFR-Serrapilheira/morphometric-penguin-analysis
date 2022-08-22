@@ -29,6 +29,8 @@ This project was developed in `R` and uses the following packages:
 `ggplot2`
 `gridExtra`
 `caret`
+`rpart`
+`rpart.plot`
 
 ## Dataset
 The raw data was collected and made available by Dr. Kristen Gorman and the Palmer Station, Antarctica.
