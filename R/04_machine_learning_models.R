@@ -1,4 +1,7 @@
 library(caret)
+library(rpart)
+library(rpart.plot)
+
 penguins <- read.csv("data/processed/02_penguins.csv")
 metric_cols <- names(penguins)[3:6]
 
@@ -34,14 +37,27 @@ decision_tree <- train(species ~ .,
                        data = train_data,
                        method = "rpart")
 
-par(mfrow=(c(1,1)))
-plot(decision_tree$finalModel, uniform=TRUE,
-     main="Classification Tree")
-text(decision_tree$finalModel, use.n = TRUE, all = TRUE, cex=0.9)
+rpart.plot(decision_tree$finalModel)
 
 decision_tree_prediction <- predict(decision_tree, newdata=test_data)
+
+#Exporting the decision tree figure
+res <- 300
+fig_size <- (res * 240) / 72
+
+if (!dir.exists("output/figs")) dir.create("output/figs", recursive = TRUE)
+png("output/figs/04_decision_tree.png",
+    res = res,
+    height = fig_size,
+    width = 1.5 * fig_size)
+rpart.plot(decision_tree$finalModel)
+dev.off()
+
 # Sucess rate of Decision Tree
 mean((decision_tree_prediction == test_data$species))
+
+# More detailed data about the Decision Tree model
+confusionMatrix(decision_tree_prediction , as.factor(test_data$species))
 
 # Random Forest ----------------------------------------------------------------
 
